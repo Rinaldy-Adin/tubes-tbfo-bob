@@ -24,8 +24,9 @@ def main():
                 exit()
 
         cnf_dict = cfg_to_cnf(filepath)
+        stream = input("Input string to check: ")
         analyzing()
-        print("Accepted.") if cyk_parse("aabb", cnf_dict) else print("Syntax error.")
+        print("Accepted.") if cyk_parse(stream, cnf_dict) else print("Syntax error.")
         print()
 
         reinput = ""
