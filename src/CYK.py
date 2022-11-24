@@ -2,8 +2,7 @@ def cyk_parse(word, cnf):
 # Returns True for Accept, False for Reject
     n = len(word)
     if n == 0:
-        return True
-        exit()
+        return False
     
     table = [[set([]) for j in range(n)] for i in range(n)]
     for i in range(n):
