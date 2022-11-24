@@ -112,7 +112,7 @@ def cfg_to_cnf(filepath: str):
                 if len(rule) >= 2 and isTerminal(symbol):
                     if symbol not in term_to_var_mapping:
                         unused_term_num += 1
-                        varname = "TER" + str(unused_term_num)
+                        varname = "TER-" + symbol.upper()
                         term_to_var_mapping[symbol] = varname
                     rule[idx] = term_to_var_mapping[symbol]
 
@@ -127,40 +127,42 @@ def cfg_to_cnf(filepath: str):
     for prod_src in cfg_dict:
         for rule in cfg_dict[prod_src]:
             if len(rule) > 2:
-                unused_newvar_num += 1
-                newvar_name = "NEWVAR" + str(unused_newvar_num)
-                first_newvar_name = newvar_name
                 idx = len(rule) - 2
                 newvar = [rule[idx], rule[idx + 1]]
 
+                exist_first = False
                 if not newvars:
-                    newvars[newvar_name] = newvar
-
-                # Check if variable exists
-                exist = False
-                for existing_varname in newvars:
-                    if newvar == newvars[existing_varname]:
-                        exist = True
-
-                if not exist:
-                    newvars[newvar_name] = newvar
-
-                for sym_idx in range(idx - 1, 0, -1):
-                    prev_newvar_name = newvar_name
+                    exist_first = True
                     unused_newvar_num += 1
                     newvar_name = "NEWVAR" + str(unused_newvar_num)
-                    newvar = [rule[sym_idx], prev_newvar_name]
+                    newvars[newvar_name] = newvar
+                    rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
 
-                    # Check if variable exists
-                    exist = False
-                    for existing_varname in newvars:
-                        if newvar == newvars[existing_varname]:
-                            exist = True
+                # Check if variable exists
+                for existing_varname in newvars:
+                    if newvar == newvars[existing_varname]:
+                        exist_first = True
 
-                    if not exist:
-                        newvars[newvar_name] = newvar
+                if not exist_first:
+                    unused_newvar_num += 1
+                    newvar_name = "NEWVAR" + str(unused_newvar_num)
+                    newvars[newvar_name] = newvar
 
-                rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
+                    for sym_idx in range(idx - 1, 0, -1):
+                        newvar = [rule[sym_idx], newvar_name]
+
+                        # Check if variable exists
+                        exist = False
+                        for existing_varname in newvars:
+                            if newvar == newvars[existing_varname]:
+                                exist = True
+
+                        if not exist:
+                            unused_newvar_num += 1
+                            newvar_name = "NEWVAR" + str(unused_newvar_num)
+                            newvars[newvar_name] = newvar
+
+                    rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
 
     # Add new variables to dict
     for newvar in newvars:
