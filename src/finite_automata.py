@@ -18,6 +18,7 @@ _TRANSITIONS = {
       "else": "q1"
     }
   }
+_KEYWORD = ["break", "const", "case", "catch", "continue", "default", "delete", "else", "false", "finally", "for", "function", "if", "let", "null", "return", "switch", "throw", "try", "true", "var", "while"]
 
 def finite_automata(input_str):
   """Finite automata untuk memvalidasi penamaan variabel"""
