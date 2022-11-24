@@ -9,7 +9,7 @@ def cyk_parse(word, cnf):
         for left, right in cnf.items():
             for product in right:
                 for idx, elmt in enumerate(word):
-                    if product == elmt:
+                    if product[0] == elmt:
                         table[idx][idx].add(left)
 
     for l in range(1, n):

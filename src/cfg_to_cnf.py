@@ -171,10 +171,10 @@ def cfg_to_cnf(filepath: str):
 
 
 # Only for debugging
-if __name__ == "__main__":
-    cfg_path = os.path.join(
-        os.path.dirname(os.path.dirname(__file__)), r"config\testcfg.txt"
-    )
-    cnf = cfg_to_cnf(cfg_path)
+# if __name__ == "__main__":
+#     cfg_path = os.path.join(
+#         os.path.dirname(os.path.dirname(__file__)), r"config\testcfg.txt"
+#     )
+#     cnf = cfg_to_cnf(cfg_path)
 
-    print(json.dumps(cnf, indent=4))
+#     print(json.dumps(cnf, indent=4))
