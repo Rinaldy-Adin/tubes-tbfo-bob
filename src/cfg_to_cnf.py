@@ -162,11 +162,14 @@ def cfg_to_cnf(filepath: str):
                             newvar_name = "NEWVAR" + str(unused_newvar_num)
                             newvars[newvar_name] = newvar
 
-                    rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
+                rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
 
     # Add new variables to dict
     for newvar in newvars:
         cfg_dict[newvar] = [newvars[newvar]]
+
+    f = open("out.txt", "w")
+    f.write(json.dumps(cfg_dict, indent=4))
 
     # RETURNS a CNF
     return cfg_dict
