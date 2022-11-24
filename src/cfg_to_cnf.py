@@ -166,10 +166,6 @@ def cfg_to_cnf(filepath: str):
     for newvar in newvars:
         cfg_dict[newvar] = [newvars[newvar]]
 
-    f = open("out.txt", "w")
-    f.write(json.dumps(cfg_dict, indent=4))
-    f.write("\n")
-
     # RETURNS a CNF
     return cfg_dict
 

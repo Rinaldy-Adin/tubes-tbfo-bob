@@ -1,12 +1,8 @@
-S -> ENDLINE | IF_STMT | STATEMENT
-IF -> if
-ELSE -> else
-LB -> (
-RB -> )
-LCB -> {
-RCB -> }
-ENDLINE -> epsilon | ; ENDLINE
-IF_STMT -> IF LB BOOLEAN RB LCB STATEMENT RCB | IF LB BOOLEAN RB LCB STATEMENT RCB ELSE_STMT
-ELSE_STMT -> ELSE LCB STATEMENT RCB | ELSE IF
-STATEMENT -> @varval
-BOOLEAN -> true
+S -> IF ENDLINE | RETURN ENDLINE | epsilon
+IF -> if ( EXPRESSION ) { S } ENDLINE | IF ( EXPRESSION ) { S } ELSE
+ELSE -> else { S } ENDLINE S | else IF
+EXPRESSION -> BOOLEAN | ( BOOLEAN ) | BRACKET
+BOOLEAN -> true ENDLINE | false ENDLINE | @varval @operator @varval
+BRACKET -> ( @varval ) ENDLINE | ( ) ENDLINE
+ENDLINE -> ; ENDLINE | epsilon
+RETURN -> return @varval ENDLINE | return ENDLINE
