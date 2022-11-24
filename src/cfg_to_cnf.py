@@ -116,6 +116,9 @@ def cfg_to_cnf(filepath: str):
                         term_to_var_mapping[symbol] = varname
                     rule[idx] = term_to_var_mapping[symbol]
 
+    # for key, value in cfg_dict.items():
+    #     print(key, ":", value)
+
     # Add variable productions to CFG
     for term in term_to_var_mapping:
         varname = term_to_var_mapping[term]
@@ -129,47 +132,21 @@ def cfg_to_cnf(filepath: str):
             if len(rule) > 2:
                 idx = len(rule) - 2
                 newvar = [rule[idx], rule[idx + 1]]
+                unused_newvar_num += 1
+                newvar_name = "NEWVAR" + str(unused_newvar_num)
+                newvars[newvar_name] = newvar
 
-                exist_first = False
-                if not newvars:
-                    exist_first = True
+                for sym_idx in range(idx - 1, 0, -1):
+                    newvar = [rule[sym_idx], newvar_name]
                     unused_newvar_num += 1
                     newvar_name = "NEWVAR" + str(unused_newvar_num)
                     newvars[newvar_name] = newvar
-                    rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
-
-                # Check if variable exists
-                for existing_varname in newvars:
-                    if newvar == newvars[existing_varname]:
-                        exist_first = True
-
-                if not exist_first:
-                    unused_newvar_num += 1
-                    newvar_name = "NEWVAR" + str(unused_newvar_num)
-                    newvars[newvar_name] = newvar
-
-                    for sym_idx in range(idx - 1, 0, -1):
-                        newvar = [rule[sym_idx], newvar_name]
-
-                        # Check if variable exists
-                        exist = False
-                        for existing_varname in newvars:
-                            if newvar == newvars[existing_varname]:
-                                exist = True
-
-                        if not exist:
-                            unused_newvar_num += 1
-                            newvar_name = "NEWVAR" + str(unused_newvar_num)
-                            newvars[newvar_name] = newvar
 
                 rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
 
     # Add new variables to dict
     for newvar in newvars:
         cfg_dict[newvar] = [newvars[newvar]]
-
-    f = open("out.txt", "w")
-    f.write(json.dumps(cfg_dict, indent=4))
 
     # RETURNS a CNF
     return cfg_dict
