@@ -67,10 +67,6 @@ def cfg_to_cnf(filepath: str):
     for prod_src in cfg_dict:
         cfg_dict[prod_src] = remove_nullables(cfg_dict[prod_src], nullables)
 
-    f = open("out.txt", "w")
-    f.write(json.dumps(cfg_dict, indent=4))
-    f.write("\n")
-
     # REMOVE UNIT PRODUCTIONS
     # Add zero step unit pairs to dict
     unit_pairs = {}
@@ -164,11 +160,15 @@ def cfg_to_cnf(filepath: str):
                     if not exist:
                         newvars[newvar_name] = newvar
 
-                rule[:] = [rule[0], first_newvar_name]
+                rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
 
     # Add new variables to dict
     for newvar in newvars:
         cfg_dict[newvar] = [newvars[newvar]]
+
+    f = open("out.txt", "w")
+    f.write(json.dumps(cfg_dict, indent=4))
+    f.write("\n")
 
     # RETURNS a CNF
     return cfg_dict
