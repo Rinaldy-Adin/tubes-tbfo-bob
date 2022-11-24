@@ -1,0 +1,95 @@
+{
+    "S": [
+        [
+            "ENDLINE"
+        ],
+        [
+            "IF_STMT"
+        ],
+        [
+            "STATEMENT"
+        ]
+    ],
+    "IF": [
+        [
+            "if"
+        ]
+    ],
+    "ELSE": [
+        [
+            "else"
+        ]
+    ],
+    "LB": [
+        [
+            "("
+        ]
+    ],
+    "RB": [
+        [
+            ")"
+        ]
+    ],
+    "LCB": [
+        [
+            "{"
+        ]
+    ],
+    "RCB": [
+        [
+            "}"
+        ]
+    ],
+    "ENDLINE": [
+        [
+            ";",
+            "ENDLINE"
+        ],
+        [
+            ";"
+        ]
+    ],
+    "IF_STMT": [
+        [
+            "IF",
+            "LB",
+            "BOOLEAN",
+            "RB",
+            "LCB",
+            "STATEMENT",
+            "RCB"
+        ],
+        [
+            "IF",
+            "LB",
+            "BOOLEAN",
+            "RB",
+            "LCB",
+            "STATEMENT",
+            "RCB",
+            "ELSE_STMT"
+        ]
+    ],
+    "ELSE_STMT": [
+        [
+            "ELSE",
+            "LCB",
+            "STATEMENT",
+            "RCB"
+        ],
+        [
+            "ELSE",
+            "IF"
+        ]
+    ],
+    "STATEMENT": [
+        [
+            "@varval"
+        ]
+    ],
+    "BOOLEAN": [
+        [
+            "true"
+        ]
+    ]
+}

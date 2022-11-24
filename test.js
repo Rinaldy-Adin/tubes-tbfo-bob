@@ -1,3 +1,1 @@
-const x = function() {
-  return0
-}
+return

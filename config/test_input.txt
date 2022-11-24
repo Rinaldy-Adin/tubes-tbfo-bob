@@ -1,0 +1,11 @@
+if (x == 0) {
+  return 0
+} else {
+  return 1;
+}
+
+if (true) {
+  return 23
+} else if (false) {
+  return "Mom en";
+}

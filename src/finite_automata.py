@@ -2,7 +2,7 @@ _TRANSITIONS = {
     "q0": {
       "alphabet": "q2",
       "underscore": "q2",
-      "number": "q1",
+      "number": "q3",
       "else": "q1"
     },
     "q1": {
@@ -16,9 +16,14 @@ _TRANSITIONS = {
       "underscore": "q2",
       "number": "q2",
       "else": "q1"
+    },
+    "q3": {
+      "alphabet": "q1",
+      "underscore": "q1",
+      "number": "q3",
+      "else": "q1"
     }
   }
-_KEYWORD = ["break", "const", "case", "catch", "continue", "default", "delete", "else", "false", "finally", "for", "function", "if", "let", "null", "return", "switch", "throw", "try", "true", "var", "while"]
 
 def finite_automata(input_str):
   """Finite automata untuk memvalidasi penamaan variabel"""
@@ -41,5 +46,5 @@ def finite_automata(input_str):
     state = _TRANSITIONS[state][curr_char]
 
   # Menghasilkan true jika automata berada di final state (q2)
-  return state == "q2"
+  return state
 

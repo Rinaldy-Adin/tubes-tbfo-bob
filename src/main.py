@@ -1,6 +1,7 @@
-from cyk import cyk_parse
+from CYK import cyk_parse
 from util import (analyzing, splash, loading)
 from cfg_to_cnf import cfg_to_cnf
+from input_converter import convert_input
 import os
 
 def main():
@@ -10,6 +11,7 @@ def main():
     print()
     running = True
     while running:
+        grammar_path = "config/cfg_testing.txt"
         filepath = input("Please input your text file path to check for syntax errors:\n")
         print()
         while not os.path.exists(filepath):
@@ -23,8 +25,13 @@ def main():
                 print("Goodbye!")
                 exit()
 
-        cnf_dict = cfg_to_cnf(filepath)
-        stream = input("Input string to check: ")
+        cnf_dict = cfg_to_cnf(grammar_path)
+        for key, value in cnf_dict.items():
+            print(key, ":", value)
+        with open(filepath, encoding='utf-8') as file:
+            line = "".join(file.readlines())
+            stream = convert_input(line)
+        print(stream)
         analyzing()
         print("Accepted.") if cyk_parse(stream, cnf_dict) else print("Syntax error.")
         print()

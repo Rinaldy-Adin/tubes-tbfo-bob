@@ -67,6 +67,10 @@ def cfg_to_cnf(filepath: str):
     for prod_src in cfg_dict:
         cfg_dict[prod_src] = remove_nullables(cfg_dict[prod_src], nullables)
 
+    f = open("out.txt", "w")
+    f.write(json.dumps(cfg_dict, indent=4))
+    f.write("\n")
+
     # REMOVE UNIT PRODUCTIONS
     # Add zero step unit pairs to dict
     unit_pairs = {}

@@ -21,6 +21,8 @@ def cyk_parse(word, cnf):
                         if len(product) == 2 and product[0] in table[i][k] and product[1] in table[k+1][j]:
                             table[i][j].add(left)
 
+    for lines in table:
+        print(lines)
     if 'S' in table[0][n-1]:
         return True
     else:
