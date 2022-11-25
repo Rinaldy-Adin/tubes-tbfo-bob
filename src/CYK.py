@@ -23,8 +23,8 @@ def cyk_parse(word, cnf, header):
                         if len(product) == 2 and product[0] in table[i][k] and product[1] in table[k+1][j]:
                             table[i][j].add(left)
 
-    for lines in table:
-        print(lines)
+    # for lines in table:
+    #     print(lines)
 
     # FOR DEBUGGING
     for idx, lines in enumerate(table):
