@@ -13,9 +13,7 @@ def main():
     running = True
     while running:
         grammar_path = "config/cfg.txt"
-        # filepath = input("Please input your text file path to check for syntax errors:\n")
-        filepath = "test/test_func_acc.js"
-        test_files = ["test/test_const_acc.js", "test/test_const_rej.js", "test/test_func_acc.js", "test/test_func_rej.js", "test/test_switch_acc.js", "test/test_switch_rej.js", "test/test_if_acc.js", "test/test_if_rej.js", "test/test_for_acc.js", "test/test_for_rej.js", "test/test_try_acc.js", "test/test_try_rej.js", "test/test_while_acc.js", "test/test_while_rej.js"]
+        filepath = input("Please input your text file path to check for syntax errors:\n")
         print()
         while not os.path.exists(filepath):
             reinput = input(
@@ -33,33 +31,22 @@ def main():
                 exit()
 
         cnf_dict = cfg_to_cnf(grammar_path)
-        # for key, value in cnf_dict.items():
-        #     print(key, ":", value)
-        # with open(filepath, encoding="utf-8") as file:
-        #     line = "".join(file.readlines())
-        #     stream = convert_input(line)
-        # print(stream)
-        # # analyzing()
-        # print("Accepted.") if cyk_parse(stream, cnf_dict, stream) else print("Syntax error.")
-        # print()
-        for file in test_files:
-          print(file + " : ")
-          with open(file, 'r') as f:
-            line = "".join(f.readlines())
+        with open(filepath, encoding="utf-8") as file:
+            line = "".join(file.readlines())
             stream = convert_input(line)
-          # print(stream)
-          print("Accepted.\n") if cyk_parse(stream, cnf_dict, stream) else print("Syntax error.\n")
+        analyzing()
+        print("Accepted.") if cyk_parse(stream, cnf_dict, stream) else print("Syntax error.")
+        print()
 
         reinput = ""
-        running = False
-        # while reinput.strip().lower() != "y" and reinput.strip().lower() != "n":
-        #     reinput = input("Would you like to check another file? (y/n): ")
-        #     if reinput.strip().lower() == "n":
-        #         print()
-        #         print("Goodbye!")
-        #         running = False
-        #     else:
-        #         print()
+        while reinput.strip().lower() != "y" and reinput.strip().lower() != "n":
+            reinput = input("Would you like to check another file? (y/n): ")
+            if reinput.strip().lower() == "n":
+                print()
+                print("Goodbye!")
+                running = False
+            else:
+                print()
 
 
 if __name__ == "__main__":
