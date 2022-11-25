@@ -1,12 +1,12 @@
 S -> SINGULAR_STATEMENT ENDLINE S | EXPRESSION ENDLINE S | @epsilon
 SINGULAR_STATEMENT - > DECLARATION | IF_STATEMENT | WHILE_LOOP | DO_WHILE_LOOP | FOR_LOOP | SWITCH_STATEMENT | TRY_STATEMENT | THROW_STATEMENT | RETURN_STATEMENT | @epsilon
-IF_STATEMENT -> if ( CONDITION ) STATEMENT | if ( CONDITION ) STATEMENT else STATEMENT
-WHILE_LOOP -> while ( CONDITION ) STATEMENT
-DO_WHILE_LOOP -> do STATEMENT while ( CONDITION )
-FOR_LOOP -> for ( FOR_INIT ; CONDITION ; EXPRESSION ) STATEMENT
+IF_STATEMENT -> if ( EXPRESSION ) STATEMENT | if ( EXPRESSION ) STATEMENT else STATEMENT
+WHILE_LOOP -> while ( EXPRESSION ) STATEMENT
+DO_WHILE_LOOP -> do STATEMENT while ( EXPRESSION )
+FOR_LOOP -> for ( FOR_INIT ; EXPRESSION ; EXPRESSION ) STATEMENT
 FOR_INIT -> EXPRESSION | DECLARATION
 SWITCH_STATEMENT -> switch ( EXPRESSION ) { CASE_STATEMENT }
-CASE_STATEMENT -> case @expression : S BREAK CASE_STATEMENT | case @expression : S CASE_STATEMENT | DEFAULT_CASE | @epsilon
+CASE_STATEMENT -> case EXPRESSION : S BREAK CASE_STATEMENT | case EXPRESSION : S CASE_STATEMENT | DEFAULT_CASE | @epsilon
 DEFAULT_CASE -> default : S BREAK | default : S
 TRY_STATEMENT -> try { S } catch { S } | try { S } catch ( @varname ) { S } | try { S } finally { S } | try { S } catch { S } finally { S } | try { S } catch ( @varname ) { S } finally { S }
 THROW_STATEMENT -> throw EXPRESSION
@@ -16,11 +16,13 @@ BERAK -> break
 CONTINUE -> continue
 STATEMENT -> { S } | SINGULAR_STATEMENT ENDLINE
 DECLARATION -> LET_DEC | VAR_DEC | CONST_DEC | FUNCTION_DEC
-LET_DEC -> let @varname | let @varname = @expression | let @varname , DEC_ASSIGNMENT | let @varname = @expression , DEC_ASSIGNMENT
-VAR_DEC -> var @varname | var @varname = @expression | var @varname , DEC_ASSIGNMENT | var @varname = @expression , DEC_ASSIGNMENT
-CONST_DEC -> const @varname = @expression | const @varname = @expression , CONSTDEC_ASSIGNMENT
-DEC_ASSIGNMENT -> @varname | @varname = @expression | @varname , DEC_ASSIGNMENT | @varname = @expression , DEC_ASSIGNMENT
-CONSTDEC_ASSIGNMENT -> @varname = @expression | @varname = @expression , CONSTDEC_ASSIGNMENT
+LET_DEC -> let @varname | let @varname = EXPRESSION | let @varname , DEC_ASSIGNMENT | let @varname = EXPRESSION , DEC_ASSIGNMENT
+VAR_DEC -> var @varname | var @varname = EXPRESSION | var @varname , DEC_ASSIGNMENT | var @varname = EXPRESSION , DEC_ASSIGNMENT
+CONST_DEC -> const @varname = EXPRESSION | const @varname = EXPRESSION , CONSTDEC_ASSIGNMENT
+DEC_ASSIGNMENT -> @varname | @varname = EXPRESSION | @varname , DEC_ASSIGNMENT | @varname = EXPRESSION , DEC_ASSIGNMENT
+ASSIGNMENT_EXP  -> @varname = EXPRESSION
+CONSTDEC_ASSIGNMENT -> @varname = EXPRESSION | @varname = EXPRESSION , CONSTDEC_ASSIGNMENT
 FUNCTION_DEC -> function @varname ( FUNC_PARAMS ) { S } | function @varname ( ) { S }
 FUNC_PARAMS -> @varname | @varname , FUNC_PARAMS
-ENDLINE -> ; | @epsilon
+ENDLINE -> ;
+EXPRESSION -> @value | @varname | ( EXPRESSION ) | EXPRESSION + EXPRESSION | EXPRESSION @unary_op | @unary_op EXPRESSION

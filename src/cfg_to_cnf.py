@@ -57,7 +57,7 @@ def cfg_to_cnf(filepath: str):
         tmp_rules = []
         rules = cfg_dict[prod_src]
         for idx, rule in enumerate(rules):
-            if "epsilon" in rule:
+            if "@epsilon" in rule:
                 nullables.append(prod_src)
             else:
                 tmp_rules.append(rule)
