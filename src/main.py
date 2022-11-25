@@ -14,8 +14,8 @@ def main():
     while running:
         grammar_path = "config/cfg.txt"
         # filepath = input("Please input your text file path to check for syntax errors:\n")
-        filepath = "test/test_func_acc.txt"
-        test_files = ["test/test_const_acc.txt", "test/test_const_rej.txt", "test/test_func_acc.txt", "test/test_func_rej.txt", "test/test_switch_acc.txt", "test/test_switch_rej.txt", "test/test_if_acc.txt", "test/test_if_rej.txt", "test/test_for_acc.txt", "test/test_for_rej.txt", "test/test_try_acc.txt", "test/test_try_rej.txt", "test/test_while_acc.txt", "test/test_while_rej.txt"]
+        filepath = "test/test_func_acc.js"
+        test_files = ["test/test_const_acc.js", "test/test_const_rej.js", "test/test_func_acc.js", "test/test_func_rej.js", "test/test_switch_acc.js", "test/test_switch_rej.js", "test/test_if_acc.js", "test/test_if_rej.js", "test/test_for_acc.js", "test/test_for_rej.js", "test/test_try_acc.js", "test/test_try_rej.js", "test/test_while_acc.js", "test/test_while_rej.js"]
         print()
         while not os.path.exists(filepath):
             reinput = input(
