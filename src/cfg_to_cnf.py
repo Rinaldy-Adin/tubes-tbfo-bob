@@ -57,7 +57,7 @@ def cfg_to_cnf(filepath: str):
         tmp_rules = []
         rules = cfg_dict[prod_src]
         for idx, rule in enumerate(rules):
-            if "epsilon" in rule:
+            if "@epsilon" in rule:
                 nullables.append(prod_src)
             else:
                 tmp_rules.append(rule)
@@ -73,6 +73,7 @@ def cfg_to_cnf(filepath: str):
     for prod_src in cfg_dict:
         unit_pairs[prod_src] = [prod_src]
 
+
     # Add other unit pairs to dict
     # and remove unit productions from CFG
     for prod_src in unit_pairs:
@@ -80,15 +81,19 @@ def cfg_to_cnf(filepath: str):
         while i < len(unit_pairs[prod_src]):
             prod_pair = unit_pairs[prod_src][i]
             rules = cfg_dict[prod_pair]
-            tmp_rules = []
             for rule in rules:
                 if len(rule) == 1 and not isTerminal(rule[0]):
                     if rule[0] not in unit_pairs[prod_src]:
                         unit_pairs[prod_src].append(rule[0])
-                else:
-                    tmp_rules.append(rule)
-            rules[:] = tmp_rules
             i += 1
+
+    for prod_src in cfg_dict:
+      tmp_rules = []
+      rules = cfg_dict[prod_pair]
+      for rule in rules:
+        if not (len(rule) == 1 and not isTerminal(rule[0])):
+          tmp_rules.append(rule)
+      rules[:] = tmp_rules
 
     # Add productions to CFG based off unit pairs
     unit_eliminated = cfg_dict.copy()
@@ -99,6 +104,15 @@ def cfg_to_cnf(filepath: str):
             for rule in pair_rules:
                 if rule not in src_rules:
                     src_rules.append(rule)
+
+    # print(json.dumps(unit_pairs, indent=4))
+    # print(json.dumps(unit_eliminated, indent=4))
+
+    
+    # for key, value in cfg_dict.items():
+    #   print(key, ":", value)
+    
+    # print("\n\n\n\n")
 
     # TURN PRODUCTIONS OF LENGTH 2
     # OR MORE TO VARIABLE ONLY
@@ -112,9 +126,10 @@ def cfg_to_cnf(filepath: str):
                 if len(rule) >= 2 and isTerminal(symbol):
                     if symbol not in term_to_var_mapping:
                         unused_term_num += 1
-                        varname = "TER" + str(unused_term_num)
+                        varname = "TER-" + symbol.upper()
                         term_to_var_mapping[symbol] = varname
                     rule[idx] = term_to_var_mapping[symbol]
+
 
     # Add variable productions to CFG
     for term in term_to_var_mapping:
@@ -127,40 +142,19 @@ def cfg_to_cnf(filepath: str):
     for prod_src in cfg_dict:
         for rule in cfg_dict[prod_src]:
             if len(rule) > 2:
-                unused_newvar_num += 1
-                newvar_name = "NEWVAR" + str(unused_newvar_num)
-                first_newvar_name = newvar_name
                 idx = len(rule) - 2
                 newvar = [rule[idx], rule[idx + 1]]
-
-                if not newvars:
-                    newvars[newvar_name] = newvar
-
-                # Check if variable exists
-                exist = False
-                for existing_varname in newvars:
-                    if newvar == newvars[existing_varname]:
-                        exist = True
-
-                if not exist:
-                    newvars[newvar_name] = newvar
+                unused_newvar_num += 1
+                newvar_name = "NEWVAR" + str(unused_newvar_num) + "-" + rule[idx]
+                newvars[newvar_name] = newvar
 
                 for sym_idx in range(idx - 1, 0, -1):
-                    prev_newvar_name = newvar_name
+                    newvar = [rule[sym_idx], newvar_name]
                     unused_newvar_num += 1
-                    newvar_name = "NEWVAR" + str(unused_newvar_num)
-                    newvar = [rule[sym_idx], prev_newvar_name]
+                    newvar_name = "NEWVAR" + str(unused_newvar_num) + "-" + rule[sym_idx]
+                    newvars[newvar_name] = newvar
 
-                    # Check if variable exists
-                    exist = False
-                    for existing_varname in newvars:
-                        if newvar == newvars[existing_varname]:
-                            exist = True
-
-                    if not exist:
-                        newvars[newvar_name] = newvar
-
-                rule[:] = [rule[0], first_newvar_name]
+                rule[:] = [rule[0], newvar_name]
 
     # Add new variables to dict
     for newvar in newvars:

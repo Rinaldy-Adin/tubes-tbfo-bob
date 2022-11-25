@@ -1,0 +1,46 @@
+========= ASSIGNMENT DECLARATION ========
+
+var x
+let x
+const x
+
+========= FUNCTION DECLARATION ========
+
+function x
+
+======= MISC STATEMENT =====
+
+throw x
+return x
+
+======== CONTROL OPS ========
+
+break -> problem
+continue -> problem
+
+========= CONDITIONALS ========
+
+for x
+
+while x
+
+switch x
+case x
+default x
+
+try x
+catch x
+finally x
+
+if x
+else x
+
+======== OPERATOR =========
+
+delete
+
+======== RESERVED VALUES =======
+
+true
+null
+false

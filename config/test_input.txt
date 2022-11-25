@@ -1,0 +1,14 @@
+// function testing(x) {
+//   switch(x) {
+//     case 0:
+//       x = 2;
+//       break;
+//       return 4;
+//     case 1:
+//       ret "Tes ting";
+//     default:
+//       return 10;
+//   }
+// }
+
+ret "tes";
