@@ -1,6 +1,3 @@
-import json, os
-
-
 def cfgtxt_to_dict(filepath: str):
     f = open(filepath, "r")
     cfg_string = f.read()
@@ -105,15 +102,6 @@ def cfg_to_cnf(filepath: str):
                 if rule not in src_rules:
                     src_rules.append(rule)
 
-    # print(json.dumps(unit_pairs, indent=4))
-    # print(json.dumps(unit_eliminated, indent=4))
-
-    
-    # for key, value in cfg_dict.items():
-    #   print(key, ":", value)
-    
-    # print("\n\n\n\n")
-
     # TURN PRODUCTIONS OF LENGTH 2
     # OR MORE TO VARIABLE ONLY
     term_to_var_mapping = {}
@@ -162,13 +150,3 @@ def cfg_to_cnf(filepath: str):
 
     # RETURNS a CNF
     return cfg_dict
-
-
-# Only for debugging
-# if __name__ == "__main__":
-#     cfg_path = os.path.join(
-#         os.path.dirname(os.path.dirname(__file__)), r"config\testcfg.txt"
-#     )
-#     cnf = cfg_to_cnf(cfg_path)
-
-#     print(json.dumps(cnf, indent=4))
