@@ -1,4 +1,4 @@
-switch(x) {
+switch(x) 
   case 0:
     y = 4;
     break;
