@@ -1,50 +1,71 @@
 import re
 from finite_automata import finite_automata
 
-_ALPHANUM = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)] + [chr(i) for i in range(48, 58)] + ["_"]
 _KEYWORD = ["break", "const", "case", "catch", "continue", "default", "delete", "else", "false", "finally", "for", "function", "if", "let", "null", "return", "switch", "throw", "try", "true", "var", "while"]
-_OPERATORS = [">>>=", "===", "!==", "<<=", ">>=", "**=", "&&=", "||=", "??=", ">>>","+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "==", "!=", ">=", "<=", "++", "--", "**", "<<", ">>", "&&", "||", "??", "%", "+", "-", "*", "/" "=", ">", "<", "&", "|", "^", "~"]
+# _OPERATORS = [">>>=", "===", "!==", "<<=", ">>=", "**=", "&&=", "||=", "??=", ">>>","+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "==", "!=", ">=", "<=", "++", "--", "**", "<<", ">>", "&&", "||", "??", "%", "+", "-", "*", "/" "=", ">", "<", "&", "|", "^", "~"]
+_ASSIGNMENT_OPERATORS = [">>>=", "!==", "<<=", ">>=", "**=", "&&=", "||=", "??=", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "="]
+_BINARY_OPERATORS = ["===", "!==", "==", "!=", ">=", "<=", "**", "<<", ">>", "&&", "||", "??", "%", "+", "-", "*", "/" "=", ">", "<", "&", "|", "^"]
+_UNARY_OPERATORS = ["++", "--", "~"]
 _EXPANDS = ["(", ")", "{", "}", "[", "]", "?", ":", ",", ";"]
 
 
 def convert_input(input_string):
   """Fungsi untuk mengubah string node js menjadi sebuah array"""
-  # Mengidentifikasi string
-  input_string = re.sub("\".*\"", " @varval ", input_string)
+  # Menghilangkan comment
+  input_string = re.sub("/[*].*[*]/", "", input_string)
+  input_string = re.sub("//.*\n", "", input_string)
 
-  # Mengidentifikasi semua operator
-  for op in _OPERATORS:
-    input_string = input_string.replace(op, " @operator ")
+  # Mengidentifikasi string
+  input_string = re.sub("\".*?\"", " @value ", input_string)
+
+  # Mengidentifikasi array
+  input_string = re.sub("\[.*\]", " @value ", input_string)
+
+  # # Mengidentifikasi semua operator
+  # for op in _OPERATORS:
+  #   input_string = input_string.replace(op, " @operator ")
+
+  # Mengidentifikasi assignment operator
+  for op in _ASSIGNMENT_OPERATORS:
+    input_string = input_string.replace(op, " @= ")
+
+  # Mengidentifikasi binary operator
+  for op in _BINARY_OPERATORS:
+    input_string = input_string.replace(op, " @+ ")
+
+  # Mengidentifikasi unary operator
+  for op in _UNARY_OPERATORS:
+    input_string = input_string.replace(op, " @unary_op ")
 
   # Memberikan spasi pada beberapa karakter
   for exp in _EXPANDS:
     input_string = input_string.replace(exp, " " + exp + " ")
   
+  # Menghilangkan newline
   input_string = input_string.replace("\n", " ")
-  input_string = input_string.split()
+  output_arr = input_string.split()
 
-  for i in range(len(input_string)):
-    str = input_string[i]
+  # Validasi nama variabel menggunakan finite automata
+  for i in range(len(output_arr)):
+    str = output_arr[i]
     if str not in _KEYWORD and str not in _EXPANDS and str[0] != '@':
       state = finite_automata(str)
       if state == "q2":
-        input_string[i] = "@varval"
+        output_arr[i] = "@varname"
       elif state == "q3":
-        input_string[i] = "@varval"
+        output_arr[i] = "@value"
+      else:
+        output_arr[i] = "@invalid"
 
-  return input_string
+  for i in range(len(output_arr)):
+    str = output_arr[i]
+    if str == "@+":
+      output_arr[i] = "+"
+    elif str == "@=":
+      output_arr[i] = "="
 
-test_str2 = '''if (x == 0) {
-  return 0
-} else {
-  return 1;
-};
+  return output_arr
 
-if (true) {
-  return 23
-} else if (false) {
-  return "Mom en";
-}
-'''
-
-print(convert_input(test_str2))
+with open("./test_fa.txt", 'r') as f:
+  input_string = f.read()
+  print(convert_input(input_string))

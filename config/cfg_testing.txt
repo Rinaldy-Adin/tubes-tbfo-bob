@@ -1,7 +1,0 @@
-S -> IF ENDLINE | RETURN ENDLINE | epsilon
-IF -> if ( EXPRESSION ) { S } ENDLINE | if ( EXPRESSION ) { S } ELSE
-ELSE -> else { S } ENDLINE | else IF
-EXPRESSION -> true ENDLINE | false ENDLINE | @varval @operator @varval
-BRACKET -> ( @varval ) ENDLINE | ( ) ENDLINE
-ENDLINE -> ; ENDLINE | epsilon
-RETURN -> return @varval ENDLINE | return ENDLINE
