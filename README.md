@@ -1,5 +1,5 @@
 # Tugas Besar Teori Bahasa Formal dan Otomata
-Javascript Linter
+Javascript Linter Program
 
 ## Anggota Kelompok:
 - Rinaldy Adin 13521134
@@ -10,6 +10,7 @@ Javascript Linter
 * [Penjelasan Ringkas Program](#penjelasan-ringkas-program)
 * [Cara Menjalankan Program](#cara-menjalankan-program)
 * [Struktur Folder](#struktur-folder)
+* [Made with](#made-with)
 
 ## Penjelasan Ringkas Program
 Dalam tugas besar ini, dilakukan pengimplementasian Teori Bahasa Formal dari *Context-free Grammar* dan *Finite Automata* dalam pembuatan program parser untuk bahasa pemrograman Javascript.
