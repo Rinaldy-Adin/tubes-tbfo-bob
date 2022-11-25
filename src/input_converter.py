@@ -18,13 +18,11 @@ def convert_input(input_string):
 
   # Mengidentifikasi string
   input_string = re.sub("\".*?\"", " @value ", input_string)
+  input_string = re.sub("'.*?'", " @value ", input_string)
+  input_string = re.sub("`.*?`", " @value ", input_string)
 
   # Mengidentifikasi array
   input_string = re.sub("\[.*\]", " @value ", input_string)
-
-  # # Mengidentifikasi semua operator
-  # for op in _OPERATORS:
-  #   input_string = input_string.replace(op, " @operator ")
 
   # Mengidentifikasi assignment operator
   for op in _ASSIGNMENT_OPERATORS:
