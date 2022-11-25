@@ -3,10 +3,11 @@ from finite_automata import finite_automata
 
 _KEYWORD = ["break", "const", "case", "catch", "continue", "default", "delete", "else", "false", "finally", "for", "function", "if", "let", "null", "return", "switch", "throw", "try", "true", "var", "while"]
 # _OPERATORS = [">>>=", "===", "!==", "<<=", ">>=", "**=", "&&=", "||=", "??=", ">>>","+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "==", "!=", ">=", "<=", "++", "--", "**", "<<", ">>", "&&", "||", "??", "%", "+", "-", "*", "/" "=", ">", "<", "&", "|", "^", "~"]
-_ASSIGNMENT_OPERATORS = [">>>=", "!==", "<<=", ">>=", "**=", "&&=", "||=", "??=", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "="]
-_BINARY_OPERATORS = ["===", "!==", "==", "!=", ">=", "<=", "**", "<<", ">>", "&&", "||", "??", "%", "+", "-", "*", "/" "=", ">", "<", "&", "|", "^"]
+_ASSIGNMENT_OPERATORS = [">>>=", "!==", "<<=", ">>=", "**=", "&&=", "||=", "??=", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|="]
 _UNARY_OPERATORS = ["++", "--", "~"]
+_BINARY_OPERATORS = ["===", "!==", "==", "!=", ">=", "<=", "**", "<<", ">>", "&&", "||", "??", "%", "+", "-", "*", "/" "=", ">", "<", "&", "|", "^"]
 _EXPANDS = ["(", ")", "{", "}", "[", "]", "?", ":", ",", ";"]
+_SPECIALS = ["="]
 
 
 def convert_input(input_string):
@@ -27,19 +28,21 @@ def convert_input(input_string):
 
   # Mengidentifikasi assignment operator
   for op in _ASSIGNMENT_OPERATORS:
-    input_string = input_string.replace(op, " @= ")
-
-  # Mengidentifikasi binary operator
-  for op in _BINARY_OPERATORS:
-    input_string = input_string.replace(op, " @+ ")
+    input_string = input_string.replace(op, " @assign_op ")
 
   # Mengidentifikasi unary operator
   for op in _UNARY_OPERATORS:
     input_string = input_string.replace(op, " @unary_op ")
 
+  # Mengidentifikasi binary operator
+  for op in _BINARY_OPERATORS:
+    input_string = input_string.replace(op, " @binary_op ")
+
   # Memberikan spasi pada beberapa karakter
   for exp in _EXPANDS:
     input_string = input_string.replace(exp, " " + exp + " ")
+
+  input_string = input_string.replace(_SPECIALS[0], " @assign_op ")
   
   # Menghilangkan newline
   input_string = input_string.replace("\n", " ")
@@ -59,13 +62,9 @@ def convert_input(input_string):
 
   for i in range(len(output_arr)):
     str = output_arr[i]
-    if str == "@+":
+    if str == "@binary_op":
       output_arr[i] = "+"
-    elif str == "@=":
+    elif str == "@assign_op":
       output_arr[i] = "="
 
   return output_arr
-
-with open("./test_fa.txt", 'r') as f:
-  input_string = f.read()
-  print(convert_input(input_string))

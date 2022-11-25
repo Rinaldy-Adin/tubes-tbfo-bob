@@ -116,8 +116,10 @@ def cfg_to_cnf(filepath: str):
                         term_to_var_mapping[symbol] = varname
                     rule[idx] = term_to_var_mapping[symbol]
 
-    # for key, value in cfg_dict.items():
-    #     print(key, ":", value)
+    for key, value in cfg_dict.items():
+        print(key, ":", value)
+    
+    print("\n\n\n\n")
 
     # Add variable productions to CFG
     for term in term_to_var_mapping:
@@ -133,16 +135,16 @@ def cfg_to_cnf(filepath: str):
                 idx = len(rule) - 2
                 newvar = [rule[idx], rule[idx + 1]]
                 unused_newvar_num += 1
-                newvar_name = "NEWVAR" + str(unused_newvar_num)
+                newvar_name = "NEWVAR" + str(unused_newvar_num) + "-" + rule[idx]
                 newvars[newvar_name] = newvar
 
                 for sym_idx in range(idx - 1, 0, -1):
                     newvar = [rule[sym_idx], newvar_name]
                     unused_newvar_num += 1
-                    newvar_name = "NEWVAR" + str(unused_newvar_num)
+                    newvar_name = "NEWVAR" + str(unused_newvar_num) + "-" + rule[sym_idx]
                     newvars[newvar_name] = newvar
 
-                rule[:] = [rule[0], "NEWVAR" + str(unused_newvar_num)]
+                rule[:] = [rule[0], newvar_name]
 
     # Add new variables to dict
     for newvar in newvars:

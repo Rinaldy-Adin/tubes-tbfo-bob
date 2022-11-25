@@ -12,8 +12,9 @@ def main():
     print()
     running = True
     while running:
-        grammar_path = "config/cfg_testing.txt"
-        filepath = input("Please input your text file path to check for syntax errors:\n")
+        grammar_path = "config/cfg_didi.txt"
+        # filepath = input("Please input your text file path to check for syntax errors:\n")
+        filepath = "config/test_input.txt"
         print()
         while not os.path.exists(filepath):
             reinput = input(
@@ -42,14 +43,15 @@ def main():
         print()
 
         reinput = ""
-        while reinput.strip().lower() != "y" and reinput.strip().lower() != "n":
-            reinput = input("Would you like to check another file? (y/n): ")
-            if reinput.strip().lower() == "n":
-                print()
-                print("Goodbye!")
-                running = False
-            else:
-                print()
+        running = False
+        # while reinput.strip().lower() != "y" and reinput.strip().lower() != "n":
+        #     reinput = input("Would you like to check another file? (y/n): ")
+        #     if reinput.strip().lower() == "n":
+        #         print()
+        #         print("Goodbye!")
+        #         running = False
+        #     else:
+        #         print()
 
 
 if __name__ == "__main__":

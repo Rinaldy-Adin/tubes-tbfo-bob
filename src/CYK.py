@@ -27,16 +27,16 @@ def cyk_parse(word, cnf, header):
         print(lines)
 
     # FOR DEBUGGING
-    # for idx, lines in enumerate(table):
-    #     lines.insert(0, header[idx])
-    # f = open("out.txt", "w")
-    # f.write(tabulate(table, headers=header, tablefmt="github"))
+    for idx, lines in enumerate(table):
+        lines.insert(0, header[idx])
+    f = open("out.txt", "w")
+    f.write(tabulate(table, headers=header, tablefmt="github"))
 
     # FOR DEBUGGING
-    # if 'S' in table[0][n]:
-    #     return True
-    # else:
-    #     return False
+    if 'S' in table[0][n]:
+        return True
+    else:
+        return False
 
 
     if 'S' in table[0][n-1]:
